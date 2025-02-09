@@ -1,0 +1,9 @@
+# Ignorar entorno virtual
+env/
+venv/
+
+app/__pycache__/
+/app/outputs/
+
+app/build
+app/build/main/main.pkg

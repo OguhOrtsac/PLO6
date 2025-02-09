@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Scraping</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body class="container-fluid d-flex flex-column">
+    <div class="main-content d-flex flex-grow-1">
+        <!-- Contenedor izquierdo (15%) para jugadores -->
+        <div class="left-container">
+            <div class="w-100">
+                <div class="d-flex">
+                    <select id="pdiSelect" class="form-select me-2">
+                        <option value="">Seleccione un PDI</option>
+                        {% for pdi in pdis %}
+                            <option value="{{ pdi }}">{{ pdi }}</option>
+                        {% endfor %}
+                    </select>
+                    <button id="actualizarPdis" class="btn btn-secondary">Actualizar</button>
+                </div>
+                <div class="d-flex mt-3">
+                    <input type="text" id="mesaInput" class="form-control" placeholder="Ingrese el número de mesa">
+                    <button id="toggleLock" class="btn btn-success ms-2 align-self-end">Bloquear</button>
+                </div>
+            </div>
+            <div class="d-flex mt-4">
+                <div class="w-100 border p-3 shadow-sm rounded bg-light">
+                    <h8 class="text-center fw-bold">Situación del juego</h8>
+                    <hr>
+                    <label class="form-check-label d-block">
+                        <input type="radio" name="boardOption" value="0" class="form-check-input me-2"> Sin Boards
+                    </label>
+                    <label class="form-check-label d-block">
+                        <input type="radio" name="boardOption" value="3" class="form-check-input me-2"> Flop
+                    </label>
+                    <label class="form-check-label d-block">
+                        <input type="radio" name="boardOption" value="4" class="form-check-input me-2"> Turn
+                    </label>
+                    <label class="form-check-label d-block">
+                        <input type="radio" name="boardOption" value="5" class="form-check-input me-2"> River
+                    </label>
+                </div>
+
+            </div>
+        
+            <section id="players-section">
+                <h4 class="text-center mb-4">Jugadores</h4>
+                <div class="mb-4">
+                    <label for="num-active-players" class="form-label">Número jugadores team:</label>
+                    <select id="num-active-players" class="form-select" onchange="resetGame()">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="num-rivals" class="form-label">Número de rivales:</label>
+                    <select id="num-rivals" class="form-select">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+            </section>
+                            <!-- Botón PROCESAR colocado correctamente -->
+            <button id="procesarPdi" class="btn btn-primary mt-3 w-20">Extraer cartas</button>
+        </div>
+        
+        <!-- Contenedor de los boards (30%) con margen para respetar el espacio del 15% -->
+        <div class="boards-container d-flex flex-column" >
+            <div class="board-wrapper position-relative">
+                <button id="board1-button" onclick="setActiveBoard('board1')" class="btn btn-primary btn-sm position-absolute board-btn">BOARD 1</button>
+                <div id="board1" class="board-area"></div>
+            </div>
+            <div class="board-wrapper position-relative">
+                <button id="board2-button"  onclick="setActiveBoard('board2')" class="btn btn-primary btn-sm position-absolute board-btn">BOARD 2</button>
+                <div id="board2" class="board-area"></div>
+            </div>
+
+            <div id="player-buttons" class="d-flex flex-column">
+                <!-- Los jugadores y sus cartas se generarán dinámicamente aquí -->
+            </div>
+        </div>
+        
+        <!-- Contenedor derecho (55%) vacío para futuras implementaciones -->
+        <div class="right-container">
+             <!-- Lado Derecho -->
+             <div class="w-100">
+                <h2 class="text-center mb-4">Estadisticas</h2>
+                <input id="num-simulations" type="number" class="form-control mb-3" placeholder="Número de simulaciones" value="10" min="1">
+                <button id="process-with-boards" class="btn btn-primary">Procesar</button>
+                <div id="simulation-results2" class="mt-4">
+                    <!-- Resultados de las simulacionescon board -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de la baraja abajo de todo (100% ancho) -->
+    <footer id="deck-footer" class="deck-footer w-100">
+        <section id="deck-section" class="w-80">
+            <div id="deck" class="row">
+                {% for card in cards %}
+                <div class="col-auto card-container" style="padding: 2px; margin: 2px;">
+                    <img src="../static/images/baraja/{{ card }}" alt="{{ card }}" class="card-img" onclick="selectCard('{{ card }}')" style="width: 60px; height: auto;">
+                    <span class="card-blocked-x">X</span>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </footer>
+    
+   
+    <!-- Incluir el archivo JavaScript -->
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="static/js/sockets.js"></script> <!-- Ajusta la ruta según sea necesario -->
+    <script src="static/js/main.js"></script>
+
+</body>
+</html>

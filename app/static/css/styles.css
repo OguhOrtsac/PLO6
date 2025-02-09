@@ -1,0 +1,315 @@
+
+
+h1 {
+    color: #343a40;
+}
+
+/* Estilos para las cartas responsivas */
+.card-img {
+    max-width: 80%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border-radius: 1px;
+}
+
+/* Contenedor para mantener 13 columnas */
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.col {
+    flex: 1 0 calc(7.69%);
+    max-width: calc(7.69%);
+    padding: 0.1rem;
+}
+
+/* Mantén filas de 13 cartas */
+#deck {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    gap: 2px;
+}
+
+/* Estilos para el contenedor de jugadores */
+.player-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+.selected-card {
+    display: inline-block;
+    position: relative;
+}
+
+/* Botón de "Quitar" en las cartas seleccionadas */
+.selected-card .small-card {
+    width: 30px;
+    height: auto;
+}
+
+.selected-card .selected-card-x {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.selected-card .selected-card-x:hover {
+    background-color: darkred;
+}
+
+/* Estilo para cartas bloqueadas */
+.blocked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.card-container {
+    position: relative;
+    padding: 2px;
+    margin: 2px;
+}
+
+.card-blocked-x {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: red;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    display: none;
+}
+
+.card-container.blocked .card-img {
+    opacity: 0.5;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.card-container.blocked .card-blocked-x {
+    display: block;
+}
+
+/* Indicador del jugador activo */
+.indicator.active {
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+#simulation-results {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+/* Asegurar que el cuerpo del documento ocupe toda la altura de la pantalla */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+
+
+
+/* Contenedor izquierdo (Jugadores en 15%) */
+.left-container {
+    width: 15%;
+    min-width: 250px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sección de jugadores dentro del panel izquierdo */
+#players-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilos generales */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+/* Estilos para el contenedor izquierdo */
+.left-container {
+    width: 15%;
+    min-width: 250px;
+    position: relative;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+
+/* Estilos para el contenedor de los boards */
+.boards-container {
+    width: 32%;
+    margin-left: 24%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+}
+
+.right-container{
+    width: 45%;
+    margin-left: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+}
+
+
+.board-area {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Sección de la baraja al fondo */
+.deck-footer {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    background-color: white;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#deck-section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#deck .card-container {
+    padding: 2px;
+    margin: 2px;
+}
+
+
+
+
+#board1 {
+    background-color: #add8e6; /* Azul bajito */
+    border: 1px solid #000; /* Borde opcional */
+    padding: 10px;
+    min-height: 150px; /* Altura mínima opcional */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+}
+
+#board2 {
+    background-color: #fffacd; /* Amarillo bajo */
+    border: 1px solid #000; /* Borde opcional */
+    padding: 10px;
+    min-height: 150px; /* Altura mínima opcional */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+}
+
+
+
+/* Asegurar que el contenido principal se expanda sin superponerse con el footer */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se muevan si no caben en una fila */
+    align-items: flex-start;
+}
+
+
+
+/* En pantallas pequeñas (menos de 992px), los boards se colocan abajo */
+@media (max-width: 900px) {
+    .main-content {
+        flex-direction: row;
+    }
+
+    .left-container {
+        position: relative;
+        width: 100%;  /* Ocupa todo el ancho en pantallas pequeñas */
+        order: 1;  /* Se mantiene arriba */
+    }
+
+    .boards-container {
+        order: 2;  /* Se mantiene arriba */
+        position: relative;
+        width: 100%; /* Ocupará todo el ancho */
+        margin-left: 0%; /* Alineado correctamente */
+        margin-top: 10px; /* Espaciado desde la parte superior */
+    }   
+
+    .boards-container {
+        order: 3;  /* Se mantiene arriba */
+        position: relative;
+        width: 100%; /* Ocupará todo el ancho */
+        margin-left: 0%; /* Alineado correctamente */
+        margin-top: 10px; /* Espaciado desde la parte superior */
+    }   
+
+    .deck-footer {
+        width: 100%;
+        position: relative;
+        padding: 10px 0;
+    }
+
+    .right-container{
+        order: 4;  /* Se mantiene arriba */
+        position: relative;
+        width: 100%; /* Ocupará todo el ancho */
+        margin-left: 0%; /* Alineado correctamente */
+        margin-top: 10px; /* Espaciado desde la parte superior */
+    }   
+    
+}

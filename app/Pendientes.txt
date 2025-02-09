@@ -1,0 +1,46 @@
+2da SEMANA
+
+1.- lo que se esta capturando pasarlo a :
+            board 1   ✅
+            board 2   ✅
+            Jugadores ✅
+
+2. Eliminar las simulaciones x1000  ✅
+
+3.- corregir problemas de deteccion 
+
+4.- hacer responsivo el codigo de las simulaciones
+
+
+5.- poner un boton de fold en los Jugadores
+            a. Pondra en gris sus cartas
+            b. En simulaciones tomara en cuenta que esas cartas ya no pueden salir
+                    pero ese jugador ya esta fold asi que aumenta posibilidades de los demas
+            
+
+
+3ra SEMANA:
+
+0. corregir errores detectado 
+
+1.- Hacer pruebas de sockets para deteccion en tiempo real
+        Tamanos del bote
+        Apuestas y acciones en la mesa
+
+2.- Crear acceso de usurios y creacion de mesas
+        Si se unen a una misma mesa que cada que alguien actualice se actualice para todos
+
+3.  Crear un servidor para subir proyecto
+
+
+
+
+4ta Semana:
+
+Integrar inteligencia artificial
+        El sistema vaya aprendiendo solo
+        De recomendaciones de como jugar
+
+buscar como dar clics automaticos
+
+Diseno de un bot

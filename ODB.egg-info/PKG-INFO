@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: ODB
+Version: 0.1
+Summary: Proyecto de scraping para cartas de poker
+Home-page: https://github.com/tuusuario/ODB
+Author: Tu Nombre
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
