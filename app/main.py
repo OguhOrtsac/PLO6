@@ -108,6 +108,10 @@ def capturar_socket(data):
     
     # Lógica de captura
     ancho, alto, ruta_captura_pantalla = capturar_pppoker(pdi_seleccionado)
+  #  ancho= 440;
+  #  alto= 823;
+    imagenX="Captura.png";
+    ruta_captura_pantalla = os.path.abspath(os.path.join("app", "static", "images", "capturas_pantalla", imagenX))
     try:
         imagen_principal = cargar_imagen(ruta_captura_pantalla)
         area_jugador = obtener_area_jugador(ancho, alto)

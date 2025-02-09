@@ -8,7 +8,7 @@ def obtener_area_boards(width, height, num_CartasBoard):
     
     # Dimensiones relativas de las cartas del board
     ancho_carta = width * 0.054
-    alto_carta = height * 0.031
+    alto_carta = height * 0.033
     alto_carta_ant = height * 0.084
 
     # Posiciones iniciales de las cartas en el board

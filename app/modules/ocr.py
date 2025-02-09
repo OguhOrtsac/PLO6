@@ -99,7 +99,7 @@ def extraer_carta(imagen_path):
 
     # Configuración de Tesseract
     config_tesseract = (
-        "--psm 7 --oem 3 -c tessedit_char_whitelist=AJKQ2345678910 -c tessedit_char_blacklist=il"
+        "--psm 8 --oem 3 -c tessedit_char_whitelist=AJKQ2345678910 -c tessedit_char_blacklist=il"
     )
 
     # Realiza el OCR en la imagen procesada
