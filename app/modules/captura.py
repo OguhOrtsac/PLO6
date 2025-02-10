@@ -52,24 +52,6 @@ def traer_ventana_al_frente(hwnd):
         raise RuntimeError(f"No se pudo traer la ventana al frente: {e}")
     
     
-    def obtener_pdis_pppoker():
-        """
-    Obtiene los PDI de las ventanas activas con el título que contiene "- PPPoker".
-
-    Returns:
-        list: Lista de PDI detectados en las ventanas.
-    """
-    pdis = []
-    
-    def enum_ventanas(hwnd, _):
-        titulo = win32gui.GetWindowText(hwnd)
-        if "- PPPoker" in titulo:
-            _, pid = win32process.GetWindowThreadProcessId(hwnd)
-            pdis.append(str(pid))  # Solo guardar el número del PDI (PID)
-    
-    win32gui.EnumWindows(enum_ventanas, None)
-    
-    return sorted(pdis)
 
 def obtener_pdis_pppoker():
     """
@@ -99,6 +81,8 @@ def listar_ventanas_pppoker():
             ventanas.append({"pid": pid, "title": titulo, "hwnd": hwnd})
     win32gui.EnumWindows(enum_ventanas, None)
     return sorted(ventanas, key=lambda x: x['pid'])
+
+
 
 def capturar_ventana(hwnd, ruta_salida):
     if not validar_hwnd(hwnd):
@@ -149,3 +133,5 @@ def capturar_pppoker(pdi_seleccionado):
     except Exception as e:
         print(f"Error inesperado: {e}")
     return None, None
+
+

@@ -241,26 +241,6 @@ function updatePlayers() {
     }
 }
 
-function toggleFold(playerId) {
-    const foldButton = document.getElementById(`fold-button-${playerId}`);
-    const playerButton = document.getElementById(`player-button-${playerId}`);
-
-    if (foldedPlayers.has(playerId)) {
-        // Si ya estaba en Fold, lo quitamos y lo activamos nuevamente
-        foldedPlayers.delete(playerId);
-        foldButton.classList.remove("btn-danger");
-        foldButton.classList.add("btn-warning");
-        foldButton.textContent = "Fold";
-        playerButton.disabled = false;
-    } else {
-        // Si no estaba en Fold, lo agregamos y deshabilitamos su botón de selección
-        foldedPlayers.add(playerId);
-        foldButton.classList.remove("btn-warning");
-        foldButton.classList.add("btn-danger");
-        foldButton.textContent = "Unfold";
-        playerButton.disabled = true; // Deshabilitar selección de jugador
-    }
-}
 
 
 // Cambia el jugador activo
@@ -541,8 +521,6 @@ socket.on('connect', function() {
 });
 
 
-
-
 // Escuchar el evento de actualización de captura desde el servidor
 socket.on('actualizacion_captura', function(data) {
     console.log('Actualización de captura:', data);
@@ -701,7 +679,6 @@ socket.on('update_cards', function(data) {
 });
 
 
-
 // Deselecciona una carta
 function removeCard(cardId, type = 'player', boardId = null) {
     if (!blockedCards.has(cardId)) return; // No permitir deselectar cartas no bloqueadas
@@ -781,4 +758,79 @@ socket.on('update_removed_cards', function(data) {
         cardElement.querySelector(".card-blocked-x").style.display = "none";
         blockedCards.delete(data.cardId);
     }
+});
+
+
+// Obtener el elemento select por su id
+const numActivePlayersSelect = document.getElementById('num-active-players');
+
+// Agregar el listener para el evento 'change'
+numActivePlayersSelect.addEventListener('change', function() {
+    // Primero, ejecutar la función de reinicio de juego
+    resetGame();
+
+    // Obtener el número de jugadores seleccionados
+    const numActivePlayers = numActivePlayersSelect.value;
+
+    // Emitir el cambio de número de jugadores al servidor
+    socket.emit('num_players_change', { numActivePlayers: numActivePlayers });
+});
+
+// Escuchar el evento combinado 'game_update' desde el servidor
+socket.on('game_update', function(data) {
+    console.log("Número de jugadores actualizado:", data.numActivePlayers);
+    
+    // Actualizar el número de jugadores en el select
+    numActivePlayersSelect.value = data.numActivePlayers;
+    
+    // Verificar si se requiere reiniciar el juego
+    if (data.resetGame) {
+        console.log("El juego debe ser reiniciado.");
+        // Llamar a la función resetGame para reiniciar el juego en todos los clientes
+        resetGame();
+    }
+});
+
+
+
+// Función para actualizar el estado del botón de fold/unfold
+function updateFoldButton(playerId, isFolded) {
+    const foldButton = document.getElementById(`fold-button-${playerId}`);
+    const playerButton = document.getElementById(`player-button-${playerId}`);
+
+    if (isFolded) {
+        // Si el jugador hizo fold
+        foldedPlayers.add(playerId);
+        foldButton.classList.remove("btn-warning");
+        foldButton.classList.add("btn-danger");
+        foldButton.textContent = "Unfold";
+        playerButton.disabled = true;  // Deshabilitar selección del jugador
+    } else {
+        // Si el jugador deshizo el fold
+        foldedPlayers.delete(playerId);
+        foldButton.classList.remove("btn-danger");
+        foldButton.classList.add("btn-warning");
+        foldButton.textContent = "Fold";
+        playerButton.disabled = false;  // Habilitar selección del jugador
+    }
+}
+
+// Función que maneja el cambio de fold
+function toggleFold(playerId) {
+    const isFolded = foldedPlayers.has(playerId);
+
+    // Emitir el evento al servidor para notificar el cambio
+    socket.emit('toggle_fold', { playerId: playerId, isFolded: !isFolded });
+
+    // Actualizar el estado del botón localmente
+    updateFoldButton(playerId, !isFolded);
+}
+
+// Escuchar el evento 'update_fold_status' desde el servidor para actualizar el estado
+socket.on('update_fold_status', function(data) {
+    const playerId = data.playerId;
+    const isFolded = data.isFolded;
+
+    // Actualizar el estado del botón del jugador
+    updateFoldButton(playerId, isFolded);
 });

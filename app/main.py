@@ -31,7 +31,8 @@ def cargar_imagen(ruta_imagen):
 
 # Crear la aplicación Flask y configurar la carpeta de plantillas
 app = Flask(__name__, template_folder="../app/templates")
-socketio = SocketIO(app)
+#socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")  # Permite conexiones de cualquier origen
 
 # Cuando un cliente se conecta, unirse a la sala "mesa_25"    
     
@@ -252,6 +253,49 @@ def handle_card_removed(data):
     except Exception as e:
         print(f"Error al procesar la eliminación de carta: {e}")
         return {"error": "Error al procesar la eliminación"}, 500
+
+
+# Evento para cambiar el número de jugadores
+@socketio.on('num_players_change')
+def handle_num_players_change(data):
+    try:
+        if 'numActivePlayers' in data:
+            num_active_players = data['numActivePlayers']
+            print(f"El número de jugadores ha cambiado a: {num_active_players}")
+
+            # Emitir a la sala "mesa_25" tanto la actualización del número de jugadores
+            # como la notificación de reinicio del juego
+            socketio.emit('game_update', {
+                'numActivePlayers': num_active_players,
+                'resetGame': True  # Indica que el juego debe reiniciarse
+            }, room="mesa_25")
+        else:
+            return {"error": "Datos incompletos"}, 400
+
+    except Exception as e:
+        print(f"Error al procesar el cambio en el número de jugadores: {e}")
+        return {"error": "Error al procesar el cambio"}, 500
+
+
+@socketio.on('toggle_fold')
+def handle_toggle_fold(data):
+    try:
+        if 'playerId' in data:
+            player_id = data['playerId']
+            is_folded = data['isFolded']
+            print(f"El jugador {player_id} ha {'hecho Fold' if is_folded else 'deshecho Fold'}.")
+
+            # Emitir a la sala "mesa_25" el estado actualizado del jugador
+            socketio.emit('update_fold_status', {
+                'playerId': player_id,
+                'isFolded': is_folded
+            }, room="mesa_25")
+        else:
+            return {"error": "Datos incompletos"}, 400
+
+    except Exception as e:
+        print(f"Error al procesar el Fold: {e}")
+        return {"error": "Error al procesar el Fold"}, 500
 
 
 # Iniciar la aplicación con WebSocket
